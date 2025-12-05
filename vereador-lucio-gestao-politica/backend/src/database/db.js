@@ -1,12 +1,18 @@
 const { Pool } = require('pg');
-require('dotenv').config(); // <-- Esta linha é essencial
+require('dotenv').config();
 
+// Configuração correta para Vercel + Neon
 const pool = new Pool({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_DATABASE,
-    password: process.env.DB_PASSWORD, // <-- Agora esta linha vai funcionar
-    port: process.env.DB_PORT,
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false // <--- OBRIGATÓRIO: Permite conexão segura com o Neon
+  }
+});
+
+// Tratamento de erro básico na conexão (opcional, mas bom para debug)
+pool.on('error', (err, client) => {
+  console.error('Erro inesperado no pool de conexão do PostgreSQL', err);
+  process.exit(-1);
 });
 
 module.exports = {

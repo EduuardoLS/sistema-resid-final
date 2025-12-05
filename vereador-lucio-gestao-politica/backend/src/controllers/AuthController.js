@@ -5,9 +5,10 @@ const db = require('../database/db');
 
 exports.login = async (req, res) => {
    
-    const { email, senha } = req.body;
+    const { email, senha, password } = req.body;
+    const senhaFinal = senha || password; 
 
-    if (!email || !senha) {
+    if (!email || !senhaFinal) {
         return res.status(400).json({ message: "E-mail e senha são obrigatórios." });
     }
 
