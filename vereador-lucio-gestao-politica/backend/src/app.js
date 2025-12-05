@@ -4,16 +4,32 @@ require('dotenv').config();
 
 const app = express();
 
-// Middlewares - IMPORTANTE: A ordem importa!
-app.use(express.json()); // Habilita o servidor a ler o corpo das requisições em formato JSON
-app.use(cors());         // Permite que o frontend (em outra porta) se comunique com o backend
+// Middlewares
+app.use(express.json());
+
+// Configuração de CORS para permitir que seu Frontend acesse
+// (Quando você tiver o link do frontend, pode colocar ali no lugar do '*')
+app.use(cors({
+    origin: '*', 
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 // Importa e usa as rotas
 const apiRoutes = require('./routes/api');
-app.use('/api', apiRoutes); // Todas as suas rotas de API começarão com /api
+app.use('/api', apiRoutes); 
+
+// Rota raiz para testar se o servidor está online
+app.get('/', (req, res) => {
+    res.send('Backend do Sistema Resid está rodando! 🚀');
+});
 
 const PORT = process.env.PORT || 5000;
 
+// Mantém o listen para rodar localmente
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
 });
+
+// --- OBRIGATÓRIO PARA VERCEL ---
+module.exports = app;
