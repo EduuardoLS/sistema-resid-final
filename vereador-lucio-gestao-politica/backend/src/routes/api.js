@@ -64,3 +64,5 @@ router.delete('/users/:id', isAdmin, userController.delete);
 router.post('/chatbot', ensureAuthenticated, chatbotController.chat);
 
 module.exports = router;
+
+// Fix Vercel Case Sensitivity.
