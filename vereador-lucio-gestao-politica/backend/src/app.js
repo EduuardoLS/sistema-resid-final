@@ -10,7 +10,7 @@ app.use(express.json());
 // Configuração de CORS para permitir que seu Frontend acesse
 // (Quando você tiver o link do frontend, pode colocar ali no lugar do '*')
 app.use(cors({
-    origin: '*', 
+    origin: ['https://resid-frontend.vercel.app', 'http://localhost:3000'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
